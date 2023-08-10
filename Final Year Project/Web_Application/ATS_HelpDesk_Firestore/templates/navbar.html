@@ -1,0 +1,43 @@
+<!--Main Navigation-->
+<header>
+  <!-- Sidebar -->
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+    <!-- <div class="position-sticky"> -->
+      <!-- <div class="list-group list-group-flush mx-3 mt-4"> -->
+       <a href="/ticket_list/" id="nav_menu" class="list-group-item list-group-item-action py-2 ripple">
+            <span>Ticket List</span>
+       </a>
+       <a href="/create_ticket/" id="nav_create_ticket" class="list-group-item list-group-item-action py-2 ripple">
+            <span>Create Ticket</span>
+       </a>
+       <a href="/resolve/" id="" class="list-group-item list-group-item-action py-2 ripple">
+          <span>Resolved Tickets</span>
+       </a> 
+       <a href="/resolve/" id="" class="list-group-item list-group-item-action py-2 ripple">
+          <span>Attention-Required Tickets</span>
+       </a> 
+      <!-- </div> -->
+    <!-- </div> -->
+  </nav>
+  <!-- Sidebar -->
+
+  <!-- Navbar -->
+  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light fixed-top">
+    <!-- Container wrapper -->
+       <div class="container-fluid">
+         <!-- Brand -->
+         <div class="nav-brand">
+            ATS
+         </div>
+         <!-- Search form -->
+         <form method="GET" action="/" class="d-none d-md-flex input-group w-auto my-auto">
+           {% comment %} <input autocomplete="off" type="search" class="form-control rounded"
+             placeholder='Search' style="min-width: 225px;" /> {% endcomment %}
+             <input type="submit" value="LOGOUT" class="btn btn-danger">
+         </form>
+       </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+</header>
+<!--Main Navigation-->

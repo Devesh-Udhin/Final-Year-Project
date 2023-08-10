@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div id="ticket-list" class="form-container">
+     <h1>Resolved Tickets</h1>
+     <table class="table table-hover table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Ticket_ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              {% comment %} <th scope="col">Date Created</th> {% endcomment %}
+              {% comment %} <th scope="col">Date Resolved</th> {% endcomment %}
+              <th scope="col">Status</th>
+              {% comment %} <th scope="col">TechResolved</th> {% endcomment %}
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticketList in ticketLists %}
+               <tr>
+                 <td>{{ticketList.id}}</td>
+                 <td>{{ticketList.Title}}</td>
+                 <td>{{ticketList.Description}}</td>
+                 {% comment %} <td>{{ticketList.DateCreated}}</td> {% endcomment %}
+                 {% comment %} <td>{{ticketList.DateResolved}}</td> {% endcomment %}
+                 <td>{{ticketList.Status}}</td>
+                 {% comment %} <td>{{ticketList.TechResolved}}</td> {% endcomment %}
+                 <td>
+                    <form method="POST" action="details/{{ticketList.id}}">
+                         {% csrf_token %}
+                         <button type="submit" class="view-button">View</button>
+                    </form>
+                 </td>
+               </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+</div>
+
+{% endblock content %}
