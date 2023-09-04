@@ -1,0 +1,48 @@
+{% extends 'main_tech.html' %}
+{% block content %}
+
+<h1>Ticket {{ ticketDetails.id }} Details</h1>
+
+<div class="attribute">
+  <span class="attribute-label">Caller:</span>
+  <span class="attribute-value">{{ ticketDetails.Caller }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Title:</span>
+  <span class="attribute-value">{{ ticketDetails.Title }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Description:</span>
+  <span class="attribute-value">{{ ticketDetails.Description }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Date Created:</span>
+  <span class="attribute-value">{{ ticketDetails.DateCreated }}</span>
+</div>
+<div class="attribute">
+  <span class="attribute-label">Date Resolved:</span>
+  <span class="attribute-value">{{ ticketDetails.DateResolved }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Status:</span>
+  <span class="attribute-value">{{ ticketDetails.Status }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Instruction Given to User:</span>
+  <span class="attribute-value">{{ ticketDetails.Comments }}</span>
+</div>
+<div class="attribute">
+  <span class="attribute-label">How Ticket was resolved:</span>
+  <span class="attribute-value">{{ ticketDetails.HowTicketWasResolve }}</span>
+</div>
+
+<div>
+
+     <form method="GET" class="button-form">
+          {% comment %} <input type="hidden" name="button_action" value="back"> {% endcomment %}
+          <input type="submit" value="Back" class="btn btn-success">
+     </form>
+          
+</div>
+
+{% endblock content %}

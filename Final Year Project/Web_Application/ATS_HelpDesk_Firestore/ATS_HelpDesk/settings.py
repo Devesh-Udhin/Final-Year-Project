@@ -130,3 +130,16 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email backend: Use the SMTP email backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP server settings for Gmail
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
+EMAIL_PORT = 587  # Port for TLS
+EMAIL_USE_TLS = True 
+
+# Gmail account credentials (sender's email)
+EMAIL_HOST_USER = 'atsdjangomain@gmail.com'
+EMAIL_HOST_PASSWORD = 'rtczngnmopbaaexn'

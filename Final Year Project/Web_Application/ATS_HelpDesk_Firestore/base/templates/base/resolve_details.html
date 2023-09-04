@@ -32,17 +32,56 @@
   <span class="attribute-value">{{ ticketDetails.TechResolved }}</span>
 </div>
 <div class="attribute">
-  <span class="attribute-label">How Ticket was resolved:</span>
+  <span class="attribute-label">Technician's comment:</span>
   <span class="attribute-value">{{ ticketDetails.Comments }}</span>
 </div>
 
 <div>
 
-     <form method="GET" class="button-form">
-          {% comment %} <input type="hidden" name="button_action" value="back"> {% endcomment %}
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <input type="hidden" name="button_action" value="back">
           <input type="submit" value="Back" class="btn btn-success">
      </form>
           
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+               Re-Submit
+          </button>
+
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Please add the following details</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <div class="modal-body">
+                     <form>
+                       <div class="form-group">
+                         <input type="hidden" name="button_action" value="re-send">
+
+                         <label for="comment" class="col-form-label">Comment:</label>
+                         <textarea class="form-control" name="comment" id="comment"></textarea>
+
+                       </div>
+                     </form>
+                   </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <input type="submit" value="Re-Submit" class="btn btn-success">
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+     </form>
+
+
 </div>
 
 {% endblock content %}

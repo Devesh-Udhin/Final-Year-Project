@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>Attention Required Ticket Details for Ticket {{ ticketDetails.id }}</h1>
+
+<div class="attribute">
+  <span class="attribute-label">Caller:</span>
+  <span class="attribute-value" name="">{{ ticketDetails.Caller }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Title:</span>
+  <span class="attribute-value" name="">{{ ticketDetails.Title }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Description:</span>
+  <span class="attribute-value" name="">{{ ticketDetails.Description }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Date Created:</span>
+  <span class="attribute-value" name="">{{ ticketDetails.DateCreated }}</span>
+</div>
+<div class="attribute">
+  <span class="attribute-label">Date Returned:</span>
+  <span class="attribute-value" name="">{{ ticketDetails.DateReturned }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Status:</span>
+  <span class="attribute-value">{{ ticketDetails.Status }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">TechAssigned:</span>
+  <span class="attribute-value" name="">{{ ticketDetails.TechAssigned }}</span>
+</div>
+<div class="attribute">
+  <span class="attribute-label">Comment</span>
+  <span class="attribute-value" name="">{{ ticketDetails.TechComment }}</span>
+</div>
+
+<div>
+
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <input type="hidden" name="button_action" value="back">
+          <input type="submit" value="Back" class="btn btn-success">
+     </form>
+          
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+               Respond
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Please provide your responce below</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <div class="modal-body">
+                    <input type="hidden" name="button_action" value="respond">
+                    <label for="responce">Responce:</label>
+                    <textarea class="form-control" name="responce" id="responce"></textarea>
+
+                   </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                     <input type="submit" value="Respond" class="btn btn-success">
+                   </div>
+                 </div>
+               </div>
+          </div>
+
+     </form>
+
+</div>
+
+{% endblock content %}

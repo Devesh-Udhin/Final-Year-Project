@@ -1,0 +1,199 @@
+{% extends 'main_tech.html' %}
+{% block content %}
+
+<h1>Ticket {{ ticketDetail.id }} Details</h1>
+
+<div class="attribute">
+  <span class="attribute-label">Caller:</span>
+  <span class="attribute-value">{{ ticketDetail.Caller }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Title:</span>
+  <span class="attribute-value">{{ ticketDetail.Title }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Description:</span>
+  <span class="attribute-value">{{ ticketDetail.Description }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">Date Created:</span>
+  <span class="attribute-value">{{ ticketDetail.DateCreated }}</span>
+</div>
+<div class="attribute">
+     <span class="attribute-label">Date Responded:</span>
+     <span class="attribute-value">{{ ticketDetail.DateResponded }}</span>
+   </div>   
+<div class="attribute">
+  <span class="attribute-label">Technician's Comment:</span>
+  <span class="attribute-value">{{ ticketDetail.TechComment }}</span>
+</div>   
+<div class="attribute">
+  <span class="attribute-label">User's Comment:</span>
+  <span class="attribute-value">{{ ticketDetail.UserComment }}</span>
+</div>
+
+<div>
+     {% comment %} Back button {% endcomment %}
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <input type="hidden" name="button_action" value="back">
+          <input type="submit" value="Back" class="btn btn-success">
+     </form>
+     
+     {% comment %} Resolve button {% endcomment %}
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+               Resolve
+          </button>
+
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Please add the following details</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <div class="modal-body">
+                     <form>
+                       <div class="form-group">
+                         <label for="resolve-ticket" class="col-form-label">How was the ticket resolved ?</label>
+                         <textarea class="form-control" name="how_ticket_was_resolve" id="mresolve-ticket"></textarea>
+                       </div>
+                       <div class="form-group">
+                         <label for="comment" class="col-form-label">Comment:</label>
+                         <textarea class="form-control" name="comment" id="comment"></textarea>
+                       </div>
+                     </form>
+                   </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <input type="hidden" name="button_action" value="resolve">
+                     <input type="submit" value="Resolve" class="btn btn-success">
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+     </form>
+
+     {% comment %} Transfer Button {% endcomment %}
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <input type="hidden" name="button_action" value="transfer">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal2">
+               Transfer
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Transfer Ticket to another Technician</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <div class="modal-body">
+                    <label for="my_dropdown">Select a Technician:</label>
+                    <select id="my_dropdown" name="selected_technician">
+                        {% for tech in techLists %}
+                            <option value="{{ tech }}">{{ tech }}</option>
+                        {% endfor %}
+                    </select>
+                   </div>
+                   <form>
+                    <div class="form-group">
+                      <label for="comment" class="col-form-label">Comment:</label>
+                      <textarea class="form-control" name="TechComment" id="comment"></textarea>
+                    </div>
+                  </form>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     {% comment %} Manually Transfer {% endcomment %}
+                     <input type="hidden" name="button_action" value="transfer">
+                     <input type="submit" value="Transfer" class="btn btn-success">
+                   </div>
+                 </div>
+               </div>
+          </div>
+
+     </form>
+
+     {% comment %} Transfer Button {% endcomment %}
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <input type="hidden" name="button_action" value="transfer">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal3">
+               Auto Transfer
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Transfer Ticket to another Technician</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <form>
+                    <div class="form-group">
+                      <label for="comment" class="col-form-label">Comment:</label>
+                      <textarea class="form-control" name="TechComment" id="comment"></textarea>
+                    </div>
+                  </form>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     
+                     {% comment %} Auto Transfer {% endcomment %}
+                     <input type="hidden" name="button_action" value="auto_transfer">
+                     <input type="submit" value="Auto Transfer" class="btn btn-success">
+                   </div>
+                 </div>
+               </div>
+          </div>
+
+     </form>
+
+     {% comment %} Request Information Button {% endcomment %}
+     <form method="POST" class="button-form">
+          {% csrf_token %}
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal4">
+               Request Information
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Ask User more Information</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <div class="modal-body">
+                    <label for="question">Question Summary:</label>
+                    <textarea class="form-control" name="request_message" id="question"></textarea>
+                   </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                     <input type="hidden" name="button_action" value="request">
+                     <input type="submit" value="Send" class="btn btn-success">
+                   </div>
+                 </div>
+               </div>
+          </div>
+
+     </form>
+     
+</div>
+
+{% endblock content %}

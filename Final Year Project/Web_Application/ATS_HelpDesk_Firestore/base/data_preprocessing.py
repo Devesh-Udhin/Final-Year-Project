@@ -76,18 +76,18 @@ tokenize_list = []
 list_of_words = []
 description = ""
 def pre_process_data(text):
-     print("Original text is: ", text)
+     # print("Original text is: ", text)
      description = apply_contractions(text)
-     print("Text after applying contractions: ", description)
+     # print("Text after applying contractions: ", description)
      description = text_cleaner(description)
-     print("Text after applying text_cleaner: ", description)
+     # print("Text after applying text_cleaner: ", description)
      tokenize_list = tokenization_func(description)
-     print("Text after tokenizing: ", tokenize_list)
+     # print("Text after tokenizing: ", tokenize_list)
      # Part Of Speech Tagging
      list_of_sen_with_part_of_speech_tagging = nltk.pos_tag(tokenize_list)
-     print("Text after POS: ", list_of_sen_with_part_of_speech_tagging)
+     # print("Text after POS: ", list_of_sen_with_part_of_speech_tagging)
      list_of_words = lemmatization(list_of_sen_with_part_of_speech_tagging)
-     print("Text after lemmatization: ", list_of_words)
+     # print("Text after lemmatization: ", list_of_words)
      
      description = str(list_of_words[0])
      
@@ -113,14 +113,14 @@ tokenizer.char_level = False
 def wordTokenizer(desc):
   tokenizer.fit_on_texts(desc) # convert each word in the text into a unique integer ID
   desc = tokenizer.texts_to_sequences(desc) # transform each text in dataframe into a sequence of integer indices
-  print("tokenized desc is: ", desc)
+#   print("tokenized desc is: ", desc)
   desc = pad_sequences(desc, maxlen = maxlen) # ensure that all sequences have the same length  
 #   print("desc after pad_sequence is: ", desc)
         
   return desc
 
 def getData(desc):
-  print("Original text is: ", desc)
+#   print("Original text is: ", desc)
   X= wordTokenizer(desc) 
 #   print("X is :", X)
   return X

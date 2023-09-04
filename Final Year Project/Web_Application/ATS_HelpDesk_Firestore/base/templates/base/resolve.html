@@ -9,10 +9,7 @@
               <th scope="col">Ticket_ID</th>
               <th scope="col">Title</th>
               <th scope="col">Description</th>
-              {% comment %} <th scope="col">Date Created</th> {% endcomment %}
-              {% comment %} <th scope="col">Date Resolved</th> {% endcomment %}
               <th scope="col">Status</th>
-              {% comment %} <th scope="col">TechResolved</th> {% endcomment %}
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -22,10 +19,7 @@
                  <td>{{ticketList.id}}</td>
                  <td>{{ticketList.Title}}</td>
                  <td>{{ticketList.Description}}</td>
-                 {% comment %} <td>{{ticketList.DateCreated}}</td> {% endcomment %}
-                 {% comment %} <td>{{ticketList.DateResolved}}</td> {% endcomment %}
                  <td>{{ticketList.Status}}</td>
-                 {% comment %} <td>{{ticketList.TechResolved}}</td> {% endcomment %}
                  <td>
                     <form method="POST" action="details/{{ticketList.id}}">
                          {% csrf_token %}
