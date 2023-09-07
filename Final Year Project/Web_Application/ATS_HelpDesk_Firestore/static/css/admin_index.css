@@ -1,0 +1,7 @@
+.hidden {
+     display: none;
+}
+
+#ticket-list {
+     margin-top: 1rem;
+}

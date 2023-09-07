@@ -12,7 +12,6 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 # End of Firebase admin config
 
-
 # Authentication by pyrebase
 import pyrebase
 
@@ -81,6 +80,28 @@ def GetTechTickets(techEmail):
      
      return results
 
+def GetAllPendingTickets():
+     results = []
+     tickets = db.collection('Tickets').get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
+def GetDatePendingTickets(start_timestamp, end_timestamp):
+     results = []
+     tickets = db.collection('Tickets').where('Date', '>=', start_timestamp).where('Date', '<=', end_timestamp).get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
 # =============================================End Tickets Table===================================
 
 # =============================================Start Resolved Table======================================
@@ -121,13 +142,35 @@ def DeleteResolvedTickets(ticketID):
      db.collection('ResolvedTickets').document(ticketID).delete()
      return
 
+def GetAllResolvedTickets():
+     results = []
+     tickets = db.collection('ResolvedTickets').get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
+def GetDateResolvedTickets(start_timestamp, end_timestamp):
+     results = []
+     tickets = db.collection('ResolvedTickets').where('DateResolved', '>=', start_timestamp).where('DateResolved', '<=', end_timestamp).get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
 # =============================================End Resolved Table======================================
 
 # ========================================Start Attention Required Table===============================
 
 def DisplayAttentionRequiredTicket(caller):
      results = []
-     docs = db.collection('AttentionRequiredTickets').where('Caller', '==', caller).where('Status', '==', 'Attention_Required').get()
+     docs = db.collection('AttentionRequiredTickets').where('Caller', '==', caller).get()
      for doc in docs:
           data = doc.to_dict()
           data['id'] = doc.id
@@ -152,13 +195,33 @@ def DeleteAtentionRequiredTickets(ticketID):
      db.collection('AttentionRequiredTickets').document(ticketID).delete()
      return
 
+def GetAllAttentionRequiredTickets():
+     results = []
+     tickets = db.collection('AttentionRequiredTickets').get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
 # ========================================End Attention Required Table=================================
 
 # ==========================================Start Responded Table======================================
 
 def DisplayReturnedTicket(tech):
      results = []
-     docs = db.collection('RespondedTickets').where('TechAssigned', '==', tech).where('Status', '==', 'Returned').get()
+     docs = db.collection('RespondedTickets').where('TechAssigned', '==', tech).get()
+     for doc in docs:
+          data = doc.to_dict()
+          data['id'] = doc.id
+          results.append(data)
+     return results
+
+def DisplayUserReturnedTicket(caller):
+     results = []
+     docs = db.collection('RespondedTickets').where('Caller', '==', caller).get()
      for doc in docs:
           data = doc.to_dict()
           data['id'] = doc.id
@@ -183,6 +246,28 @@ def DeleteReturnedTickets(ticketID):
      db.collection('RespondedTickets').document(ticketID).delete()
      return
 
+def GetAllReturnedTickets():
+     results = []
+     tickets = db.collection('RespondedTickets').get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
+def GetDateReturnedTickets(start_timestamp, end_timestamp):
+     results = []
+     tickets = db.collection('RespondedTickets').where('DateResponded', '>=', start_timestamp).where('DateResponded', '<=', end_timestamp).get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
 # ==========================================End Responded Table========================================
 
 # ============================================Start Escalated Table====================================
@@ -196,31 +281,62 @@ def DisplayTechEscalatedTicket(tech):
           results.append(data)
      return results
 
+def DisplayUserEscalatedTicket(caller):
+     results = []
+     docs = db.collection('EscalatedTickets').where('Caller', '==', caller).get()
+     for doc in docs:
+          data = doc.to_dict()
+          data['id'] = doc.id
+          results.append(data)
+     return results
+
 def GetEscalatedTicket(ticketID):
      result = db.collection('EscalatedTickets').document(ticketID).get()
      ticket = result.to_dict()
      ticket['id'] = result.id
      return ticket
 
-def UpdateEscalatedTable(ticketID, Caller, Title, Description, Status, TechTransferFrom, TechTransferTo, DateCreated, TechComment):
+def UpdateEscalatedTable(ticketID, Caller, Title, Description, Status, TechTransferFrom, TechTransferTo, DateCreated, TechComment, originalLang):
      DateEscalated = date.today()
      # Convert the date to a Firestore timestamp
      DateEscalated = gc_firestore.SERVER_TIMESTAMP if isinstance(DateEscalated, type(date.today())) else DateEscalated
 
-     data = {'Caller':Caller, 'Title':Title, 'Description':Description, 'Status':Status, 'TechTransferFrom':TechTransferFrom, 'TechTransferTo':TechTransferTo, 'DateCreated':DateCreated, 'DateEscalated':DateEscalated, 'TechComment':TechComment}
+     data = {'Caller':Caller, 'Title':Title, 'Description':Description, 'Status':Status, 'TechTransferFrom':TechTransferFrom, 'TechTransferTo':TechTransferTo, 'DateCreated':DateCreated, 'DateEscalated':DateEscalated, 'TechComment':TechComment, 'OriginalLang':originalLang}
      db.collection('EscalatedTickets').document(ticketID).set(data)
 
-def UpdateAutoEscalatedTable(ticketID, Caller, Title, Description, Status, TechTransferFrom, TechTransferTo, DateCreated, TechComment):
+def UpdateAutoEscalatedTable(ticketID, Caller, Title, Description, Status, TechTransferFrom, TechTransferTo, DateCreated, TechComment, originalLang):
      DateEscalated = date.today()
      # Convert the date to a Firestore timestamp
      DateEscalated = gc_firestore.SERVER_TIMESTAMP if isinstance(DateEscalated, type(date.today())) else DateEscalated
 
-     data = {'Caller':Caller, 'Title':Title, 'Description':Description, 'Status':Status, 'TechTransferFrom':TechTransferFrom, 'TechTransferTo':TechTransferTo, 'DateCreated':DateCreated, 'DateEscalated':DateEscalated, 'TechComment':TechComment}
+     data = {'Caller':Caller, 'Title':Title, 'Description':Description, 'Status':Status, 'TechTransferFrom':TechTransferFrom, 'TechTransferTo':TechTransferTo, 'DateCreated':DateCreated, 'DateEscalated':DateEscalated, 'TechComment':TechComment, 'OriginalLang':originalLang}
      db.collection('EscalatedTickets').document(ticketID).set(data)
 
 def DeleteEscalatedTickets(ticketID):
      db.collection('EscalatedTickets').document(ticketID).delete()
      return
+
+def GetAllEscalatedTickets():
+     results = []
+     tickets = db.collection('EscalatedTickets').get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
+
+def GetDateEscalatedTickets(start_timestamp, end_timestamp):
+     results = []
+     tickets = db.collection('EscalatedTickets').where('DateEscalated', '>=', start_timestamp).where('DateEscalated', '<=', end_timestamp).get()
+     
+     for ticket in tickets:
+          data = ticket.to_dict()
+          data['id'] = ticket.id
+          results.append(data)
+     
+     return results
 
 # ============================================End Escalated Table====================================
 
@@ -279,6 +395,15 @@ def GetTechActiveCount(maxCount):
           
      return results
 
+def GetAllActiveCount():
+     docs = db.collection('Technicians').get()
+     results = []
+     for doc in docs:
+          data = doc.to_dict()
+          data['id'] = doc.id
+          results.append(data)
+          
+     return results
 
 # =========================================End Technicians Table========================================     
 
@@ -307,19 +432,37 @@ def GetMaxActiveCount():
 
      return maxActiveCount
 
+def GetThreshold():
+     Threshold = db.collection('Info').document('TechnicianThreshold').get()
+     Threshold = Threshold.to_dict()
+
+     return Threshold
+
+def UpdateMaxActiveCount(maxCount):
+     db.collection("Info").document("MaxActiveCount").set({"MaxCount": int(maxCount)})
+     
+def UpdateTechThreshold(threshold):
+     db.collection("Info").document("TechnicianThreshold").set({"Threshold": float(threshold)})
+     
 # ================================================End Info Table============================================
 
-# =========================================Start AllPredictions Table=======================================
+# =========================================Start TicketInfo Table=======================================
 
-def UpdateAllPredictionsTable(ticketID, predictionList):
-     db.collection("AllPredictions").document(ticketID).set({"Predictions": predictionList})
+def UpdateTicketInfoTable(ticketID, predictionList, encoded_attachement):
+     db.collection("TicketInfo").document(ticketID).set({"Predictions": predictionList, "Attachement": encoded_attachement})
 
 def GetPredictionsList(ticketID):
-     predictionsLists = db.collection('AllPredictions').document(ticketID).get()
+     predictionsLists = db.collection('TicketInfo').document(ticketID).get()
      predictionsListsDict = predictionsLists.to_dict()
 
      predictions_array_data = predictionsListsDict.get('Predictions', [])
 
      return predictions_array_data
 
-# =========================================End AllPredictions Table=========================================
+def GetAttachements(ticketID):
+     result = db.collection("TicketInfo").document(ticketID).get()
+     result = result.to_dict()
+     data_url = f"data:image/jpeg;base64,{result['Attachement']}"
+     
+     return data_url
+# =========================================End TicketInfo Table=========================================

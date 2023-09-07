@@ -1,0 +1,28 @@
+{% extends 'main_tech.html' %}
+{% block content %}
+
+<div id="ticket-list" class="form-container">
+     <h1>All Resolved Tickets</h1>
+     <table class="table table-hover table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Ticket_ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticketDetail in ticketDetails %}
+               <tr>
+                 <td>{{ticketDetail.id}}</td>
+                 <td>{{ticketDetail.Title}}</td>
+                 <td>{{ticketDetail.Description}}</td>
+                 <td>{{ticketDetail.HowTicketWasResolve}}</td>
+               </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+</div>
+
+{% endblock content %}

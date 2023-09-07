@@ -1,0 +1,24 @@
+{% extends 'main_admin.html' %}
+{% block content %}
+
+<form method="POST">
+     {% csrf_token %}
+     <div class="container">
+          <label for="set_count">Set Max ticket count for Technicians:</label>
+          <input name="button_action" type="hidden" value="count"></input>
+          <input id="set_count" name="maxCount" type="number" class=""></input>
+          <button type='submit' id="set_count_btn" class="btn btn-success">Submit</button>
+     </div>
+</form>
+<hr/>
+<form method="POST">
+     {% csrf_token %}
+     <div class="container">
+          <label for="set_thr">Set Min Threshold for Technicians:</label>
+          <input name="button_action" type="hidden" value="threshold"></input>
+          <input id="set_thr" name="setThreshold" type="number" step="0.01" class=""></input>
+          <button type='submit' id="set_thr_btn" class="btn btn-success">Submit</button>
+     </div>
+</form>
+
+{% endblock content %}
